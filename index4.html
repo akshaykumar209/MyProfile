@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background: #0e0e0e;
+      color: white;
+    }
+    
+    /* Home Page Scroll Disabled */
+    #home {
+      overflow: hidden;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    #home a {
+      font-size: 20px;
+      color: red;
+    }
+    
+    .contact-links {
+      margin-bottom: 18px;
+    }
+    
+    /* Other Sections Scrollable */
+    #about,
+    #projects,
+    #contact {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 100px 20px;
+      min-height: 100vh;
+      width: 100%;
+    }
+    
+    /* Navigation Bar */
+    nav {
+      display: flex;
+      justify-content: space-around;
+      background: #111;
+      padding: 10px;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+    
+    nav button {
+      background: none;
+      border: 2px solid cyan;
+      color: white;
+      padding: 10px;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+    
+    nav button:hover {
+      background: cyan;
+      color: black;
+    }
+    
+    /* Profile Image */
+    .profile-img {
+      width: 200px;
+      height: 200px;
+      border-radius: 100%;
+      border: 2px solid cyan;
+      object-fit: cover;
+      object-position: center 40%;
+      transform: scale(1.2);
+      margin-top: 15px;
+    }
+    
+    /* About Section Centered */
+    .about-container {
+      max-width: 800px;
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5);
+      text-align: center;
+    }
+    
+    .section-title {
+      text-align: center;
+      color: cyan;
+      margin-bottom: 15px;
+    }
+    
+    .section-content {
+      padding: 15px;
+      border-left: 4px solid cyan;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 5px;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    
+    .highlight {
+      color: cyan;
+      font-weight: bold;
+    }
+    
+    /* Contact Section Styling */
+    .contact-container {
+      max-width: 600px;
+      background: #1a1a1a;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0, 255, 255, 0.5);
+      text-align: center;
+      margin-top: 20px;
+    }
+    
+    .contact-list {
+      list-style: none;
+      padding: 0;
+      margin-top: 10px;
+    }
+    
+    .contact-list li {
+      background: #222;
+      margin: 10px 0;
+      padding: 10px;
+      border-radius: 5px;
+      transition: 0.3s ease;
+    }
+    
+    .contact-list li a {
+      color: cyan;
+      text-decoration: none;
+      font-size: 18px;
+      display: block;
+      padding: 5px;
+    }
+    
+    .contact-list li:hover {
+      background: cyan;
+    }
+    
+    .contact-list li:hover a {
+      color: black;
+    }
+    
+
+    /* Projects Section */
+    .projects-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      list-style: none;
+      padding: 20px;
+    }
+    
+    .projects-list li {
+      background: #1a1a1a;
+      color: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 255, 255, 0.3);
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+    }
+    
+    .projects-list li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 12px rgba(0, 255, 255, 0.6);
+    }
+    
+    .projects-list li::before {
+      content: "";
+      font-size: 20px;
+      color: cyan;
+    }
+    
+    .projects-list li {
+      background: #1a1a1a;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 255, 255, 0.3);
+      transition:
+        transform 0.3s ease,
+        box-shadow 0.3s ease;
+      text-align: center;
+    }
+    
+    .projects-list li:hover {
+      transform: translateY(-5px);
+      box-shadow: 0px 6px 12px rgba(0, 255, 255, 0.6);
+    }
+    
+    .projects-list li a {
+      color: cyan;
+      text-decoration: none;
+      font-size: 18px;
+      font-weight: bold;
+      display: block;
+      padding: 5px;
+    }
+    
+    .projects-list li a:hover {
+      color: black;
+      background: cyan;
+      border-radius: 5px;
+      padding: 8px;
+    }
+    
+    /* Default aur XS screens par logo na dikhe */
+    .logo {
+      display: none;
+    }
+    
+    /* SM aur MD screens par logo dikhe */
+    @media (min-width: 600px) {
+      .logo {
+        display: block;
+        font-size: 22px;
+        font-weight: bold;
+        color: cyan;
+      }
+    }
+    
+    @media (min-width: 600px) {
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 20px;
+      }
+      
+      .logo {
+        order: 1;
+        /* Logo ko right side me le jane ke liye */
+      }
+      
+      .nav-buttons {
+        order: 2;
+      }
+    }
+    
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 40px;
+      }
+      
+      h2 {
+        font-size: 30px;
+      }
+      
+      p {
+        font-size: 20px;
+      }
+      
+      .profile-img {
+        width: 300px;
+        height: 300px;
+      }
+    }
+    
+    .thumbnails {
+      display: none;
+    }
+    
+    @media (min-width: 600px) {
+      .thumbnails {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 20px;
+      }
+      
+      .thumbnails img {
+        width: 100px;
+        height: 100px;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+        margin-top:28px;
+        
+        
+      }
+      
+      .thumbnails img:hover {
+        transform: scale(1.8);
+      }
+    }
+ /* Sabhi sections by default hide honge */
+#about, #projects, #contact {
+  display: none;
+}
+
+/* Sirf home section dikhaye */
+#home {
+  display: flex;
+}   
+  
+
+  
+   
+    @media (min-width: 600px) {
+  
+  .home-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px;
+    border: 3px solid cyan; 
+    border-radius: 10px;
+    max-width: 95%; 
+    margin: 10px; 
+  box-shadow: 0px 0px 25px rgba(0, 255, 255, 1);
+  
+  }
+
+  .home-content {
+    max-width: 50%;
+  }
+
+  .home-image {
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  margin-right:30px;
+  margin-top:30px;
+  }
+}
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .about-container {
+        padding: 15px;
+      }
+      
+      .section-content {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navigation Bar -->
+  <nav>
+    <div class="nav-buttons">
+      <button onclick="showSection('home')">Home</button>
+      <button onclick="showSection('about')">About</button>
+      
+      <button onclick="showSection('projects')">Projects</button>
+      <button onclick="showSection('contact')">Contact</button>
+    </div>
+    <div class="logo">
+      <h3>Mr.AKSH ....K.D</h3>
+    </div>
+  </nav>
+  
+  <!-- Home Section -->
+  <div id="home" class="section">
+    <div class="home-wrapper">
+    <!-- Left Side Content -->
+    
+    <div class="home-content">
+      
+      <h1>Hello, It's Me</h1>
+      <h1>Akshay</h1>
+      <h2>And I'm a <span style="color: cyan">Web Developer</span></h2>
+      <p>
+        I'm a web designer with extensive experience of over 3 years. I
+        specialize in creating and designing responsive websites.
+      </p>
+      <br />
+      <div class="contact-links">
+        <a href="https://t.me/+YvatK8_tApg0MDZl" target="_blank">Telegram</a>
+        |
+        <a href="https://www.instagram.com/akshay_kumar7817/tagged/" target="_blank">Instagram</a>
+        |
+        <a href="#" onclick="showSection('about')">About Me</a>
+      </div>
+    </div>
+    
+    <!-- Right Side Image + Thumbnails -->
+    <div class="home-image">
+      <img src="/aboutMe/image.jpg" alt="Profile Picture" class="profile-img" />
+      <div class="thumbnails">
+        <img src="/aboutMe/thumb1.jpg" alt="Thumbnail 1" /><br/>
+        <img src="/aboutMe/thumb2.jpg" alt="Thumbnail 2" /><br/>
+        <img src="/aboutMe/thumb3.jpg" alt="Thumbnail 3" />
+      </div>
+    </div>
+  </div>
+  </div>
+  
+  
+  <!-- About Section -->
+  <div id="about" class="section">
+    <h1 class="section-title">About Me</h1>
+    <div class="about-container">
+      <div class="section-content">
+        <h3>1. Personal Details</h3>
+        <p><span class="highlight">Name :</span> Akshay Kumar</p>
+        <p>
+          <span class="highlight">Education :</span> 11th Grade, S.D. Inter
+          College (Muzaffarnagar)
+        </p>
+        <p><span class="highlight">Mother's Name :</span> Mrs. Sushma</p>
+        <p><span class="highlight">Father's Name :</span> Mr. Dheeraj</p>
+        <p><span class="highlight">Siblings :</span> I have two sisters</p>
+      </div>
+      
+      <div class="section-content">
+        <h3>2. My Coding Journey</h3>
+        <p>
+          <span class="highlight">Who Introduced Me to Coding? :<br /></span>
+          My school
+        </p>
+        <p>
+          <span class="highlight">When Did I Start Learning? :<br /></span>
+          During my web development studies
+        </p>
+        <p>
+          <span class="highlight">What Did I Learn First? :<br /></span> HTML,
+          CSS, and JavaScript
+        </p>
+      </div>
+      
+      <div class="section-content">
+        <h3>3. Experience with CodeYogi</h3>
+        <p><span class="highlight">Joined CodeYogi :</span> 2 August 2024</p>
+        <p>
+          <span class="highlight">Learned Through This Program :</span> HTML,
+          CSS, and JavaScript
+        </p>
+      </div>
+      <div class="section-content">
+        <h3>4. Additional Achievements</h3>
+        <p>
+          <span class="highlight">Competitions Participated :</span> Wordle
+        </p>
+        <p>
+          <span class="highlight">Awards or Positions Earned :</span> None
+        </p>
+      </div>
+      
+      <div class="section-content">
+        <h3>5. Future Plans</h3>
+        <p>
+          <span class="highlight">Career Goal :</span> To become a Software
+          Developer
+        </p>
+        <p>
+          <span class="highlight">Reason :</span> I am passionate about
+          creating innovative solutions and contributing to the tech world.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Projects Section -->
+  <div id="projects" class="section">
+    <h1 class="section-title">Projects</h1>
+    <ul class="projects-list">
+      <li>
+        <a href="https://akshaykumar209.github.io/BloodDonor/" target="_blank">🚑 Blood Donor App</a>
+      </li>
+      <li>
+        <a href="https://akshaykumar209.github.io/Wordle7/" target="_blank">🎮 Wordle Game</a>
+      </li>
+      <li>
+        <a href="https://editorr.netlify.app/code/a/y42jTW4X1zxkmu2Jp5T">⏰ Digtal Clock</a>
+      </li>
+      <li>
+        <a href="https://editorr.netlify.app/Akshay209/HoliSpecial">🌈Holi special</a>
+      </li>
+      <li>
+        <a href="https://editorr.netlify.app/code/a/KhVfDRlSCWOjB7Wl96c">🎴My Card</a>
+      </li>
+    </ul>
+  </div>
+  
+  <!-- Contact Section -->
+  
+  <div id="contact" class="section">
+    <h1 class="section-title">Contact Me</h1>
+    <div class="contact-container">
+      <p>
+        If you want to connect with me, feel free to reach out through the
+        links below:
+      </p>
+      <ul class="contact-list">
+        <li>
+          <a href="https://t.me/+YvatK8_tApg0MDZl" target="_blank">📩 Telegram</a>
+        </li>
+        <li>
+          <a href="https://www.instagram.com/akshay_kumar7817/tagged/" target="_blank">📸 Instagram</a>
+        </li>
+        <li>
+          <a href="https://facebook.com/yourfacebook" target="_blank">📘 Facebook</a>
+        </li>
+        <li>
+          <a href="https://wa.me/yourwhatsapp" target="_blank">📞 WhatsApp</a>
+        </li>
+        <li>
+          <a href="https://youtube.com/@akshaykumar-m6r?si=TbFL0FLuAxPvs1Po" target="_blank">📺 YouTube</a>
+        </li>
+        <li><a href="">✉️ Gmail: akshaykumar886806@gmail.com</a></li>
+      </ul>
+    </div>
+  </div>
+  
+  <script>
+    function showSection(sectionId) {
+      document.querySelectorAll(".section").forEach((section) => {
+        section.style.display = "none";
+      });
+      
+      document.getElementById(sectionId).style.display = "flex";
+    }
+  </script>
+</body>
+
+</html>
